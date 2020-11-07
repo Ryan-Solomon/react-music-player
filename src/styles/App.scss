@@ -1,5 +1,6 @@
 @import './song';
 @import './player';
+@import './library';
 
 * {
   margin: 0;
@@ -11,5 +12,14 @@ h1,
 h2,
 h3 {
   color: rgb(51, 51, 51);
-  font-family: sans-serif;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+}
+
+h3,
+h4 {
+  font-weight: 400;
+  color: rgb(100, 100, 100);
 }
