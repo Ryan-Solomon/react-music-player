@@ -7,22 +7,17 @@ import {
   faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-const Player = ({ currentSong, setIsPlaying, isPlaying }) => {
-  const audioElementRef = useRef();
+const Player = ({
+  audioElementRef,
+  playSongHandler,
+  currentSong,
+  isPlaying,
+}) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
   });
 
-  const playSongHandler = () => {
-    if (isPlaying) {
-      audioElementRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioElementRef.current.play();
-      setIsPlaying(true);
-    }
-  };
   const timeUpdateHandler = (e) => {
     const currentTime = e.target.currentTime;
     const duration = e.target.duration;
