@@ -7,19 +7,17 @@ import {
   faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-const Player = ({ currentSong }) => {
+const Player = ({ currentSong, setIsPlaying, isPlaying }) => {
   const audioElementRef = useRef();
 
   const playSongHandler = () => {
-    if (isAudioPlaying()) {
+    if (isPlaying) {
       audioElementRef.current.pause();
+      setIsPlaying(false);
     } else {
       audioElementRef.current.play();
+      setIsPlaying(true);
     }
-  };
-
-  const isAudioPlaying = () => {
-    return !audioElementRef.current.paused;
   };
 
   return (
@@ -35,7 +33,7 @@ const Player = ({ currentSong }) => {
           onClick={playSongHandler}
           className='play'
           size='2x'
-          icon={faPlay}
+          icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
           className='skip-forward'
