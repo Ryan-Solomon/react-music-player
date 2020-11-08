@@ -78,6 +78,10 @@ const Player = ({
       (roundedCurrentTime / roundedCurrentDuration) * 100
     );
 
+    if (animationPercentage === 100) {
+      skip('forward');
+    }
+
     setSongInfo({
       currentTime,
       duration,
