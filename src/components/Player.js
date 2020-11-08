@@ -12,11 +12,46 @@ const Player = ({
   playSongHandler,
   currentSong,
   isPlaying,
+  songs,
+  setIsPlaying,
+  setCurrentSong,
 }) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
   });
+
+  const skip = (forwardOrBack) => {
+    let currentSongIdx;
+    songs.forEach((song, idx) => {
+      if (song.id === currentSong.id) {
+        currentSongIdx = idx;
+      }
+    });
+
+    let nextSongIdx;
+    if (forwardOrBack === 'forward') {
+      nextSongIdx = currentSongIdx + 1;
+      if (nextSongIdx === songs.length) {
+        nextSongIdx = 0;
+      }
+    } else if (forwardOrBack === 'backward') {
+      nextSongIdx = currentSongIdx - 1;
+      if (nextSongIdx === -1) {
+        nextSongIdx = songs.length - 1;
+      }
+    }
+    console.log(nextSongIdx);
+    setCurrentSong(songs[nextSongIdx]);
+    setIsPlaying(true);
+    const playPromise = audioElementRef.current.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        audioElementRef.current.play();
+      });
+    }
+  };
 
   const timeUpdateHandler = (e) => {
     const currentTime = e.target.currentTime;
@@ -52,7 +87,12 @@ const Player = ({
         <p>{getTime(songInfo.duration)}</p>
       </div>
       <div className='play-control'>
-        <FontAwesomeIcon className='skip-back' size='2x' icon={faAngleLeft} />
+        <FontAwesomeIcon
+          onClick={() => skip('backward')}
+          className='skip-back'
+          size='2x'
+          icon={faAngleLeft}
+        />
         <FontAwesomeIcon
           onClick={playSongHandler}
           className='play'
@@ -60,6 +100,7 @@ const Player = ({
           icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
+          onClick={() => skip('forward')}
           className='skip-forward'
           size='2x'
           icon={faAngleRight}
