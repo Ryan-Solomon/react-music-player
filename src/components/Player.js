@@ -15,6 +15,7 @@ const Player = ({
   songs,
   setIsPlaying,
   setCurrentSong,
+  setSongs,
 }) => {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
@@ -43,7 +44,21 @@ const Player = ({
     }
     console.log(nextSongIdx);
     setCurrentSong(songs[nextSongIdx]);
+
     setIsPlaying(true);
+
+    const newSongs = songs.map((song, idx) => {
+      let isCurrent;
+      if (idx === nextSongIdx) {
+        isCurrent = true;
+      } else {
+        isCurrent = false;
+      }
+      return { ...song, active: isCurrent };
+    });
+
+    setSongs(newSongs);
+
     const playPromise = audioElementRef.current.play();
 
     if (playPromise !== undefined) {
