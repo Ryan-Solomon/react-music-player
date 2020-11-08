@@ -36,6 +36,7 @@ function App() {
         setCurrentSong={setCurrentSong}
         audioElementRef={audioElementRef}
         songs={songs}
+        setSongs={setSongs}
       />
     </div>
   );

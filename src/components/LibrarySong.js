@@ -6,18 +6,21 @@ const LibrarySong = ({
   setCurrentSong,
   audioElementRef,
   songs,
+  setSongs,
 }) => {
   const updateSong = () => {
     setCurrentSong(currentSong);
     setIsPlaying(true);
     const newSongs = songs.map((song) => {
+      let isCurrent;
       if (song.id === currentSong.id) {
-        song.active = true;
+        isCurrent = true;
       } else {
-        song.active = false;
+        isCurrent = false;
       }
-      return song;
+      return { ...song, active: isCurrent };
     });
+    setSongs(newSongs);
 
     const playPromise = audioElementRef.current.play();
 
