@@ -5,10 +5,19 @@ const LibrarySong = ({
   currentSong,
   setCurrentSong,
   audioElementRef,
+  songs,
 }) => {
   const updateSong = () => {
     setCurrentSong(currentSong);
     setIsPlaying(true);
+    const newSongs = songs.map((song) => {
+      if (song.id === currentSong.id) {
+        song.active = true;
+      } else {
+        song.active = false;
+      }
+      return song;
+    });
 
     const playPromise = audioElementRef.current.play();
 
@@ -20,7 +29,10 @@ const LibrarySong = ({
   };
 
   return (
-    <div className='library-song' onClick={updateSong}>
+    <div
+      className={`library-song ${currentSong.active ? 'selected' : ''}  `}
+      onClick={updateSong}
+    >
       <img alt={currentSong.name} src={currentSong.cover} />
       <div className='song-description'>
         <h3>{currentSong.name}</h3>
